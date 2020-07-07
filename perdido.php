@@ -17,13 +17,38 @@ $app->post('/perdido/inserir', function(){
         exit;
     }
 
-    $animal = new Perdido();
+    $perdido = new Perdido();
 
-    $animal->setData($_POST);
+    $perdido->setData($_POST);
 
-    $animal->save();
+    $perdido->save();
 
-    echo json_encode($animal->getValues()); 
+    echo json_encode($perdido->getValues()); 
+
+    exit;
+
+});
+
+$app->post('/perdido/editar', function(){
+    
+    if(!isset($_POST["idperdido"])
+    ){
+        echo json_encode(array(
+            "success"=>"false",
+            "mensage"=>"POST com falta de informações!"
+        )); 
+        exit;
+    }
+
+    $perdido = new Perdido();
+
+    $perdido->getById($_POST["idperdido"]);
+
+    $perdido->setData($_POST);
+
+    $perdido->update();
+
+    echo json_encode($perdido->getValues()); 
 
     exit;
 

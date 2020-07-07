@@ -76,10 +76,13 @@ class Animal extends Model{
         $sql = new Sql();
 
         $result = $sql->select(
-            "SELECT * " . 
-            "FROM animal a " .  
-            "WHERE ({$exceto} = 0 || a.idAnimal <> {$exceto}) " .  
-            "ORDER BY a.idAnimal "
+            "SELECT *  
+            FROM animal a   
+            WHERE (:Exceto = 0 || a.idAnimal <> :Exceto)   
+            ORDER BY a.idAnimal ",
+            [
+                "Exceto"=>$exceto
+            ]
         );
 
         foreach($result as $animal){

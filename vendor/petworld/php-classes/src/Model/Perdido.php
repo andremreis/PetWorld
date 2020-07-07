@@ -27,6 +27,25 @@ class Perdido extends Model{
 
     }
 
+    public function update()
+    {
+        
+        $sql = new Sql();
+
+        $results = $sql->select("CALL sp_perdido_update_save(:idperdido, :idusuario, :idanimal, :estado, :cidade, :descricao, :status)", array(
+            "idperdido"=>$this->getidperdido(),
+            "idusuario"=>$this->getidusuario(),
+            "idanimal"=>$this->getidanimal(),
+            "estado"=>$this->getestado(),
+            "cidade"=>$this->getcidade(),
+            "descricao"=>$this->getdescricao(),
+            "status"=>$this->getstatus(),
+        ));
+
+        $this->setData($results[0]);
+
+    }
+
     public function getById($idPerdido)
     {
         $sql = new Sql();
@@ -41,6 +60,18 @@ class Perdido extends Model{
         $results[0]["Animal"] = $animal->getValues();
 
         $this->setData($results[0]);
+
+    }
+
+    public function obterPorUsuario($idUsuario)
+    {
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT * FROM perdido p WHERE idUsuario = :idUsuario", [
+            ":idUsuario"=>$idUsuario
+        ]);
+
+        return $results;
 
     }
     

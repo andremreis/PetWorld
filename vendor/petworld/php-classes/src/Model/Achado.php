@@ -31,6 +31,27 @@ class Achado extends Model{
 
     }
 
+    public function update()
+    {
+
+        $sql = new Sql();
+
+        $results = $sql->select("CALL sp_achado_update_save(:idAchado, :idUsuario, :idImagem, :descricaoLocal, :descricaoAnimal, :estado, :cidade, :acolhido, :status)", array(
+            "idAchado"=>$this->getidAchado(),
+            "idUsuario"=>$this->getidUsuario(),
+            "idImagem"=>$this->getidImagem(),
+            "descricaoLocal"=>$this->getdescricaoLocal(),
+            "descricaoAnimal"=>$this->getdescricaoAnimal(),
+            "estado"=>$this->getestado(),
+            "cidade"=>$this->getcidade(),
+            "acolhido"=>$this->getacolhido(),
+            "status"=>$this->getstatus()
+        ));
+
+        $this->setData($results[0]);
+
+    }
+
     public function getById($idachado)
     {
         $sql = new Sql();
@@ -40,6 +61,18 @@ class Achado extends Model{
         ]);
 
         $this->setData($results[0]);
+
+    }
+
+    public function obterPorUsuario($idUsuario)
+    {
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT * FROM achado a WHERE a.idUsuario = :idUsuario", [
+            ":idUsuario"=>$idUsuario
+        ]);
+
+        return $results;
 
     }
     

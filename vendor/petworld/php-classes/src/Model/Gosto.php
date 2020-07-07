@@ -52,6 +52,54 @@ class Gosto extends Model{
 
     }
 
+    public function obterAnimalDeAcordoComGostos($idUsuario) : Animal
+    {
+        $gostos = $this->getByUsuario($idUsuario);
+
+        $especie = "";
+        $raca = "";
+        $sexo = "";
+        $cor = "";
+        $porte = "";
+        $pelo = "";
+        $filhote = "";
+
+        foreach ($gostos as $key => $value) {
+
+            if($key > 0){
+                $especie .= ";";
+                $raca .= ";";
+                $sexo .= ";";
+                $cor .= ";";
+                $porte .= ";";
+                $pelo .= ";";
+                $filhote .= ";";
+            }
+
+            $especie .= $value["especie"];
+            $raca .= $value["raca"];
+            $sexo .= $value["sexo"];
+            $cor .= $value["cor"];
+            $porte .= $value["porte"];
+            $pelo .= $value["pelo"];
+            $filhote .= $value["filhote"];
+        }
+
+        $animal = new Animal();
+        $data = [
+            "especie"=>$especie,
+            "raca"=>$raca,
+            "sexo"=>$sexo,
+            "cor"=>$cor,
+            "porte"=>$porte,
+            "pelo"=>$pelo,
+            "filhote"=>$filhote
+        ];
+        $animal->setData($data);
+
+        return $animal;
+    }
+
 }
 
 ?>

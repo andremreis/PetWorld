@@ -37,12 +37,30 @@ class Usuario extends Model{
         }
     }
 
-    public static function listAll()
+    public static function listAll($exceto = 0)
     {
+        
+        $Usuarios = array();
 
         $sql = new Sql();
 
-        return $sql->select("SELECT * FROM usuario a ORDER BY a.nome");
+        $result = $sql->select(
+            "SELECT * 
+            FROM usuario a  
+            WHERE (:Exceto = 0 || a.idUsuario <> :Exceto)   
+            ORDER BY a.nome",
+            [
+                "Exceto"=>$exceto
+            ]
+        );
+
+        foreach($result as $usuairo){
+            $obj = new Usuario();
+            $obj->setData($usuairo);
+            array_push($Usuarios, $obj);
+        }
+
+        return $Usuarios; 
         
     }
 
