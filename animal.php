@@ -109,4 +109,14 @@ $app->get('/animal/galeria/:idanimal', function($idAnimal){
 
 });
 
+$app->get('/animal/:id', function($idAnimal){
+
+    $animal = new Animal();
+    $animal->getById($idAnimal);
+    echo json_encode($animal->getValues());
+
+    exit;
+
+});
+
 ?>

@@ -66,23 +66,33 @@ class Gosto extends Model{
 
         foreach ($gostos as $key => $value) {
 
-            if($key > 0){
-                $especie .= ";";
-                $raca .= ";";
-                $sexo .= ";";
-                $cor .= ";";
-                $porte .= ";";
-                $pelo .= ";";
-                $filhote .= ";";
-            }
+            $diffEspecie = array_diff(explode(";", $value["especie"]), explode(";", $especie));
+            if(strlen($especie) > 0 && count($diffEspecie) > 0) $especie .= ";";
+            $especie .= implode( ";", $diffEspecie);
 
-            $especie .= $value["especie"];
-            $raca .= $value["raca"];
-            $sexo .= $value["sexo"];
-            $cor .= $value["cor"];
-            $porte .= $value["porte"];
-            $pelo .= $value["pelo"];
-            $filhote .= $value["filhote"];
+            $diffRaca = array_diff(explode(";", $value["raca"]), explode(";", $raca));
+            if(strlen($raca) > 0 && count($diffRaca) > 0) $raca .= ";";
+            $raca .= implode( ";", $diffRaca);
+
+            $diffSexo = array_diff(explode(";", $value["sexo"]), explode(";", $sexo));
+            if(strlen($sexo) > 0 && count($diffSexo) > 0) $sexo .= ";";
+            $sexo .= implode( ";", $diffSexo);
+
+            $diffCor = array_diff(explode(";", $value["cor"]), explode(";", $cor));
+            if(strlen($cor) > 0 && count($diffCor) > 0) $cor .= ";";
+            $cor .= implode( ";", $diffCor);
+
+            $diffPorte = array_diff(explode(";", $value["porte"]), explode(";", $porte));
+            if(strlen($porte) > 0 && count($diffPorte) > 0) $porte .= ";";
+            $porte .= implode( ";", $diffPorte);
+
+            $diffPelo = array_diff(explode(";", $value["pelo"]), explode(";", $pelo));
+            if(strlen($pelo) > 0 && count($diffPelo) > 0) $pelo .= ";";
+            $pelo .= implode( ";", $diffPelo);
+
+            $diffFilhote = array_diff(explode(";", $value["filhote"]), explode(";", $filhote));
+            if(strlen($filhote) > 0 && count($diffFilhote) > 0) $filhote .= ";";
+            $filhote .= implode( ";", $diffFilhote);
         }
 
         $animal = new Animal();

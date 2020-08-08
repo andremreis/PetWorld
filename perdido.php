@@ -67,8 +67,16 @@ $app->get('/perdido/:idperdido', function($idperdido){
 $app->get('/perdido', function(){
 
     $perdido = new Perdido();
-    $perdido->listAll();
-    echo json_encode($perdido->getValues());
+    echo json_encode($perdido->listAll());
+    exit;
+
+});
+
+$app->get('/perdido/usuario/:idusuario', function($idUsuario){
+
+    $perdido = new Perdido();
+    $results = $perdido->obterPorUsuario($idUsuario);
+    echo json_encode($results);
     exit;
 
 });

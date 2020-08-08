@@ -169,8 +169,16 @@ $app->get('/achado/:idachado', function($idachado){
 $app->get('/achado', function(){
 
     $achado = new Achado();
-    $achado->listAll();
-    echo json_encode($achado->getValues());
+    echo json_encode($achado->listAll());
+    exit;
+
+});
+
+$app->get('/achado/usuario/:idusuario', function($idUsuario){
+
+    $achado = new Achado();
+    $results = $achado->obterPorUsuario($idUsuario);
+    echo json_encode($results);
     exit;
 
 });

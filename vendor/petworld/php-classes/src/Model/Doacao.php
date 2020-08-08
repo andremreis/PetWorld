@@ -48,6 +48,35 @@ class Doacao extends Model{
         $this->setData($results[0]);
 
     }
+
+    public function obterPorUsuario($idUsuario)
+    {
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT * FROM doacao d WHERE d.idAntigoDono = :idUsuario", [
+            ":idUsuario"=>$idUsuario
+        ]);
+
+        foreach($results as &$doacao)
+        {
+            $animal = new Animal();
+            $animal->getById($doacao["idAnimal"]);
+            $doacao["Animal"] = $animal->getValues();
+
+            $usuario = new Usuario();
+            $usuario->getById($doacao["idAntigoDono"]);
+            $doacao["AntigoDono"] = $usuario->getValues();
+
+            if($doacao["idNovoDono"] != null){
+                $usuario = new Usuario();
+                $usuario->getById($doacao["idNovoDono"]);
+                $doacao["NovoDono"] = $usuario->getValues();
+            }
+        }
+
+        return $results;
+
+    }
     
     public function listAll()
     {
@@ -56,7 +85,24 @@ class Doacao extends Model{
 
         $results = $sql->select("SELECT * FROM doacao d ORDER BY d.dataRegistro");
 
-        $this->setData($results);
+        foreach($results as &$doacao)
+        {
+            $animal = new Animal();
+            $animal->getById($doacao["idAnimal"]);
+            $doacao["Animal"] = $animal->getValues();
+
+            $usuario = new Usuario();
+            $usuario->getById($doacao["idAntigoDono"]);
+            $doacao["AntigoDono"] = $usuario->getValues();
+
+            if($doacao["idNovoDono"] != null){
+                $usuario = new Usuario();
+                $usuario->getById($doacao["idNovoDono"]);
+                $doacao["NovoDono"] = $usuario->getValues();
+            }
+        }
+
+        return $results;
         
     }
 

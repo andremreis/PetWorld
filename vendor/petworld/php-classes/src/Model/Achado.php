@@ -68,7 +68,7 @@ class Achado extends Model{
     {
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * FROM achado a WHERE a.idUsuario = :idUsuario", [
+        $results = $sql->select("SELECT * FROM achado a LEFT JOIN imagem i ON a.idImagem = i.idImagem WHERE a.idUsuario = :idUsuario", [
             ":idUsuario"=>$idUsuario
         ]);
 
@@ -83,7 +83,7 @@ class Achado extends Model{
 
         $results = $sql->select("SELECT * FROM achado a INNER JOIN imagem i ON i.idImagem = a.idImagem ORDER BY a.dataRegistro");
 
-        $this->setData($results);
+        return $results;
         
     }
 

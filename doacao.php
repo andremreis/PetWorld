@@ -41,8 +41,16 @@ $app->get('/doacao/:iddoacao', function($iddoacao){
 $app->get('/doacao', function(){
 
     $doacao = new Doacao();
-    $doacao->listAll();
-    echo json_encode($doacao->getValues());
+    echo json_encode($doacao->listAll());
+    exit;
+
+});
+
+$app->get('/doacao/usuario/:idusuario', function($idUsuario){
+
+    $doacao = new Doacao();
+    $results = $doacao->obterPorUsuario($idUsuario);
+    echo json_encode($results);
     exit;
 
 });

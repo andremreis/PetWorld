@@ -71,6 +71,14 @@ class Perdido extends Model{
             ":idUsuario"=>$idUsuario
         ]);
 
+        foreach($results as &$perdido)
+        {
+            $animal = new Animal();
+            $animal->getById($perdido["idAnimal"]);
+
+            $perdido["Animal"] = $animal->getValues();
+        }
+
         return $results;
 
     }
@@ -90,7 +98,7 @@ class Perdido extends Model{
             $perdido["Animal"] = $animal->getValues();
         }
 
-        $this->setData($results);
+        return $results;
         
     }
 
