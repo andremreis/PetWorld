@@ -87,6 +87,9 @@ class Animal extends Model{
 
         foreach($result as $animal){
             $obj = new Animal();
+
+            $obj->setGaleria(Animal::getGaleria($animal["idAnimal"]));
+
             $obj->setData($animal);
             array_push($Animais, $obj);
         }

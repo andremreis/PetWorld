@@ -41,6 +41,9 @@ $app->post('/animal/galeria', function(){
 
     date_default_timezone_set('America/Sao_Paulo');
 
+    Log::inserir("POST: " . json_encode($_POST));
+    Log::inserir("FILES: " . json_encode($_FILES));
+    
     if(!isset($_POST["idanimal"]) ||
     !isset($_FILES["file"])){
         echo json_encode(array(
@@ -49,8 +52,6 @@ $app->post('/animal/galeria', function(){
         )); 
         exit;
     }
-
-    //Log::inserir(json_encode($_FILES));
 
     if(!file_exists(DIRETORIO_IMAGENS)){
         mkdir(DIRETORIO_IMAGENS, 0777, true);

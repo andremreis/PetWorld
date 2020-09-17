@@ -37,7 +37,7 @@ class Usuario extends Model{
         }
     }
 
-    public static function listAll($exceto = 0)
+    public static function listAll($exceto = 0, $array = false)
     {
         
         $Usuarios = array();
@@ -53,6 +53,8 @@ class Usuario extends Model{
                 "Exceto"=>$exceto
             ]
         );
+
+        if($array) return $result;
 
         foreach($result as $usuairo){
             $obj = new Usuario();

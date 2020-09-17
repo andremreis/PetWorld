@@ -65,7 +65,7 @@ $app->get('/usuario/:idUsuario/pets', function($idUsuario){
 
 $app->get('/usuario', function(){
 
-    echo json_encode(Usuario::listAll());
+    echo json_encode(Usuario::listAll(0, true));
 
     exit;
 

@@ -6,10 +6,10 @@ $app->post('/doacao/inserir', function(){
 
     date_default_timezone_set('America/Sao_Paulo');
 
-    if(!isset($_POST["idanimal"])){
+    if(!isset($_POST["idAnimal"])){
         $faltante = "";
 
-        if(!isset($_POST["idanimal"])) $faltante .= "idanimal\n";
+        if(!isset($_POST["idAnimal"])) $faltante .= "idAnimal\n";
 
         echo json_encode(array(
             "success"=>"false",
@@ -27,6 +27,34 @@ $app->post('/doacao/inserir', function(){
     echo json_encode($doacao->getValues()); 
 
     exit;
+});
+
+$app->post('/doacao/editar', function(){
+    
+    if(!isset($_POST["idDoacao"])){
+        echo json_encode(array(
+            "success"=>"false",
+            "mensage"=>"POST com falta de informações!"
+        )); 
+        exit;
+    }
+
+    $doacao = new Doacao();
+
+    $doacao->getById($_POST["idDoacao"]);
+
+    $doacao->setData($_POST);
+
+    if(!isset($_POST["DataDoacao"])){
+        $doacao->setDataDoacao(date('Y-m-d H-i-s'));
+    }
+
+    $doacao->update();
+
+    echo json_encode($doacao->getValues()); 
+
+    exit;
+
 });
 
 $app->get('/doacao/:iddoacao', function($iddoacao){

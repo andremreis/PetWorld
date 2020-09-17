@@ -24,6 +24,23 @@ class Doacao extends Model{
 
     }
 
+    public function update()
+    {
+
+        $sql = new Sql();
+
+        $results = $sql->select("CALL sp_doacao_update_save(:idDoacao, :idAnimal, :idAntigoDono, :idNovoDono, :DataDoacao)", array(
+            "idDoacao"=>$this->getidDoacao(),
+            "idAnimal"=>$this->getidAnimal(),
+            "idAntigoDono"=>$this->getidAntigoDono(),
+            "idNovoDono"=>$this->getidNovoDono(),
+            "DataDoacao"=>$this->getDataDoacao()
+        ));
+
+        $this->setData($results[0]);
+
+    }
+
     public function getById($iddoacao)
     {
         $sql = new Sql();

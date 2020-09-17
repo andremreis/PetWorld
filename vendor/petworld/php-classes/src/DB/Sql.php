@@ -4,10 +4,15 @@ namespace PetWorld\DB;
 
 class Sql {
 
-	const HOSTNAME = "127.0.0.1";
-	const USERNAME = "root";
-	const PASSWORD = "";
-	const DBNAME = "petworld";
+	// const HOSTNAME = "127.0.0.1";
+	// const USERNAME = "root";
+	// const PASSWORD = "";
+	// const DBNAME = "petworld";
+
+	const HOSTNAME = "192.185.222.182";
+	const USERNAME = "marin307_pet";
+	const PASSWORD = "aa88xk62";
+	const DBNAME = "marin307_pet";
 
 	private $conn;
 
