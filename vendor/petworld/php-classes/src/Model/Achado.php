@@ -81,7 +81,7 @@ class Achado extends Model{
 
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * FROM achado a INNER JOIN imagem i ON i.idImagem = a.idImagem ORDER BY a.dataRegistro");
+        $results = $sql->select("SELECT * FROM achado a INNER JOIN imagem i ON i.idImagem = a.idImagem WHERE a.status = 1 ORDER BY a.dataRegistro DESC");
 
         return $results;
         

@@ -6,7 +6,7 @@ $app->post('/doacao/inserir', function(){
 
     date_default_timezone_set('America/Sao_Paulo');
 
-    if(!isset($_POST["idAnimal"])){
+    if(!isset($_POST["idanimal"])){
         $faltante = "";
 
         if(!isset($_POST["idAnimal"])) $faltante .= "idAnimal\n";

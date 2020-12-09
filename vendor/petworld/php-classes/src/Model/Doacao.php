@@ -100,7 +100,7 @@ class Doacao extends Model{
 
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * FROM doacao d ORDER BY d.dataRegistro");
+        $results = $sql->select("SELECT * FROM doacao d WHERE d.idNovoDono IS NULL ORDER BY d.dataRegistro DESC");
 
         foreach($results as &$doacao)
         {

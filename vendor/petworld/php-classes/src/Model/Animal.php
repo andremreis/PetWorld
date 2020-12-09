@@ -28,6 +28,27 @@ class Animal extends Model{
 
     }
 
+    public function update()
+    {
+        
+        $sql = new Sql();
+
+        $results = $sql->select("CALL sp_animal_update_save(:idAnimal, :nome, :especie, :raca, :sexo, :cor, :porte, :pelo, :filhote)", array(
+            "idAnimal"=>$this->getidAnimal(),
+            "nome"=>$this->getnome(),
+            "especie"=>$this->getespecie(),
+            "raca"=>$this->getraca(),
+            "sexo"=>$this->getsexo(),
+            "cor"=>$this->getcor(),
+            "porte"=>$this->getporte(),
+            "pelo"=>$this->getpelo(),
+            "filhote"=>$this->getfilhote()
+        ));
+
+        $this->setData($results[0]);
+
+    }
+
     public function getById($idAnimal)
     {
         $sql = new Sql();
@@ -69,7 +90,7 @@ class Animal extends Model{
 
     }
 
-    public static function listAll($exceto = 0)
+    public static function listAll($exceto = 0, $apenasDoacao = false, $excetoAnimaisDoUsuario = 0)
     {
         $Animais = array();
 
@@ -78,10 +99,20 @@ class Animal extends Model{
         $result = $sql->select(
             "SELECT *  
             FROM animal a   
-            WHERE (:Exceto = 0 || a.idAnimal <> :Exceto)   
+            WHERE (:Exceto = 0 || a.idAnimal <> :Exceto) &&
+            (:ExcetoAnimaisDoUsuario = 0 || a.idUsuario <> :ExcetoAnimaisDoUsuario) &&   
+            (:ApenasDoacao = false || 
+                a.idAnimal IN (
+                    SELECT idAnimal 
+                    FROM doacao
+                    GROUP BY idAnimal
+                )
+            )
             ORDER BY a.idAnimal ",
             [
-                "Exceto"=>$exceto
+                "Exceto"=>$exceto,
+                "ApenasDoacao"=>$apenasDoacao,
+                "ExcetoAnimaisDoUsuario"=>$excetoAnimaisDoUsuario
             ]
         );
 

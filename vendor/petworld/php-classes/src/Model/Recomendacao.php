@@ -277,7 +277,7 @@ class Recomendacao extends Model{
             // Similaridade de animal
 
             $idAnimal = $objeto->getidAnimal() ?? 0;
-            $Animais = Animal::listAll($idAnimal);
+            $Animais = Animal::listAll($idAnimal, true, $objeto->getidUsuario());
             foreach($Animais as $Animal){
 
                 $euclidiana = self::euclidianaAnimal($objeto, $Animal);
@@ -457,6 +457,7 @@ class Recomendacao extends Model{
 
         $animal = new Animal();
         $data = [
+            "idUsuario"=>$usuario->getidUsuario(),
             "especie"=>array_key_first($especie) ?? "",
             "raca"=>array_key_first($raca) ?? "",
             "sexo"=>array_key_first($sexo) ?? "",
@@ -474,6 +475,7 @@ class Recomendacao extends Model{
 
         $gosto = new Gosto();
         $animal = $gosto->obterAnimalDeAcordoComGostos($usuario->getidUsuario());
+        $animal->setidUsuario($usuario->getidUsuario());
         return $this->getSimilares(BaseEnum::Animal, $animal);
 
     }

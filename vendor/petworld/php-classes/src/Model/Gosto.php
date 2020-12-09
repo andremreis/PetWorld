@@ -12,20 +12,30 @@ class Gosto extends Model{
 
         $sql = new Sql();
 
-        $results = $sql->select("CALL sp_gosto_save(:idusuario, :nome, :especie, :raca, :sexo, :cor, :porte, :pelo, :filhote)", array(
-            "idusuario"=>$this->getidusuario(),
-            "nome"=>$this->getnome(),
-            "especie"=>$this->getespecie(),
-            "raca"=>$this->getraca(),
-            "sexo"=>$this->getsexo(),
-            "cor"=>$this->getcor(),
-            "porte"=>$this->getporte(),
-            "pelo"=>$this->getpelo(),
-            "filhote"=>$this->getfilhote()
+        $results = $sql->select("CALL sp_gosto_save(:idusuario, :especie, :raca, :sexo, :cor, :porte, :pelo, :filhote, :principal, :dataCriacao)", array(
+            ":idusuario"=>$this->getidUsuario(),
+            ":especie"=>$this->getespecie(),
+            ":raca"=>$this->getraca(),
+            ":sexo"=>$this->getsexo(),
+            ":cor"=>$this->getcor(),
+            ":porte"=>$this->getporte(),
+            ":pelo"=>$this->getpelo(),
+            ":filhote"=>$this->getfilhote(),
+            ":principal"=>$this->getprincipal(),
+            ":dataCriacao"=>$this->getdataCriacao(),
         ));
 
         $this->setData($results[0]);
 
+    }
+
+    public static function removerRegistro($idGosto)
+    {
+        $sql = new Sql();
+
+        $sql->query("DELETE FROM gosto WHERE idGosto = :ID", [
+            ":ID"=>$idGosto
+        ]);
     }
 
     public function getById($idGosto)
@@ -40,7 +50,8 @@ class Gosto extends Model{
 
     }
 
-    public function getByUsuario($idUsuario)
+    // Mudei pra static, se der BO remover
+    public static function getByUsuario($idUsuario)
     {
         $sql = new Sql();
 

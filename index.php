@@ -16,6 +16,7 @@ require_once("perdido.php");
 require_once("achado.php");
 require_once("doacao.php");
 require_once("recomendacao.php");
+require_once("gosto.php");
 
 $app->run();
 

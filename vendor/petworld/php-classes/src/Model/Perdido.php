@@ -88,7 +88,7 @@ class Perdido extends Model{
 
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * FROM perdido p ORDER BY p.dataRegistro");
+        $results = $sql->select("SELECT * FROM perdido p ORDER BY p.dataRegistro DESC");
 
         foreach($results as &$perdido)
         {

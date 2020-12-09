@@ -63,6 +63,24 @@ $app->get('/usuario/:idUsuario/pets', function($idUsuario){
 
 });
 
+// Obter animais daquele usuário hábil para adicionar como doação
+$app->get('/usuario/:idUsuario/pets/doacao', function($idUsuario){
+
+    echo json_encode(Usuario::getPetsParaDoacao($idUsuario));
+
+    exit;
+
+});
+
+// Obter animais daquele usuário hábil para adicionar como perdido
+$app->get('/usuario/:idUsuario/pets/perdido', function($idUsuario){
+
+    echo json_encode(Usuario::getPetsParaPerdido($idUsuario));
+
+    exit;
+
+});
+
 $app->get('/usuario', function(){
 
     echo json_encode(Usuario::listAll(0, true));
@@ -84,5 +102,30 @@ $app->get('/usuario/:id', function($idUsuario){
 // $app->get('/usuario/data/:data', function($data){
 //     echo date("Y-m-d", strtotime($data));
 // });
+
+$app->post('/usuario/editar', function(){
+    
+    if(!isset($_POST["idUsuario"])
+    ){
+        echo json_encode(array(
+            "success"=>"false",
+            "mensage"=>"POST com falta de informações!"
+        )); 
+        exit;
+    }
+
+    $usuario = new Usuario();
+
+    $usuario->getById($_POST["idUsuario"]);
+
+    $usuario->setData($_POST);
+
+    $usuario->update();
+
+    echo json_encode($usuario->getValues()); 
+
+    exit;
+
+});
 
 ?>

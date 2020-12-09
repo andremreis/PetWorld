@@ -120,4 +120,29 @@ $app->get('/animal/:id', function($idAnimal){
 
 });
 
+$app->post('/animal/editar', function(){
+    
+    if(!isset($_POST["idAnimal"])
+    ){
+        echo json_encode(array(
+            "success"=>"false",
+            "mensage"=>"POST com falta de informações!"
+        )); 
+        exit;
+    }
+
+    $animal = new Animal();
+
+    $animal->getById($_POST["idAnimal"]);
+
+    $animal->setData($_POST);
+
+    $animal->update();
+
+    echo json_encode($animal->getValues()); 
+
+    exit;
+
+});
+
 ?>

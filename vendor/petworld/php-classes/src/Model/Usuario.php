@@ -86,6 +86,74 @@ class Usuario extends Model{
             ":idUsuario"=>$idUsuario
         ]);
 
+        foreach($results as &$animal){
+
+            $animal["Galeria"] = Animal::getGaleria($animal["idAnimal"]);
+            
+        }
+
+        return $results;
+
+    }
+
+    public static function getPetsParaDoacao($idUsuario)
+    {
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT a.* FROM animal a
+            LEFT JOIN doacao d ON d.idAnimal = a.idAnimal
+            WHERE a.idUsuario = :idUsuario AND 
+            a.idAnimal NOT IN(
+                SELECT p.idAnimal FROM perdido p
+                WHERE p.idAnimal IN (
+                    SELECT a.idAnimal FROM animal a
+                WHERE a.idUsuario = :idUsuario
+                )
+            ) AND
+            a.idAnimal NOT IN(
+                SELECT d.idAnimal FROM doacao d
+                WHERE d.idAnimal IN (
+                    SELECT a.idAnimal FROM animal a
+                WHERE a.idUsuario = :idUsuario
+                )
+            );", 
+        [
+            ":idUsuario"=>$idUsuario
+        ]);
+
+        foreach($results as &$animal){
+
+            $animal["Galeria"] = Animal::getGaleria($animal["idAnimal"]);
+            
+        }
+
+        return $results;
+
+    }
+
+    public static function getPetsParaPerdido($idUsuario)
+    {
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT * FROM animal a
+            WHERE a.idUsuario = :idUsuario AND 
+            a.idAnimal NOT IN(
+                SELECT p.idAnimal FROM perdido p
+                WHERE p.idAnimal IN (
+                    SELECT a.idAnimal FROM animal a
+                WHERE a.idUsuario = :idUsuario
+                )
+            );", 
+        [
+            ":idUsuario"=>$idUsuario
+        ]);
+
+        foreach($results as &$animal){
+
+            $animal["Galeria"] = Animal::getGaleria($animal["idAnimal"]);
+            
+        }
+
         return $results;
 
     }
@@ -113,7 +181,32 @@ class Usuario extends Model{
 
 		$this->setData($results[0]);
 
-	}
+    }
+    
+    public function update()
+    {
+        
+        $sql = new Sql();
+
+        $results = $sql->select("CALL sp_users_update_save(:idUsuario, :senha, :nome, :sobrenome, :sexo, :nascimento, :cep, :rua, :numero, :bairro, :cidade, :estado, :telefone)", array(
+            "idUsuario"=>$this->getidUsuario(),
+            ":senha"=>$this->getsenha(),
+            ":nome"=>$this->getnome(),
+            ":sobrenome"=>$this->getsobrenome(),
+            ":sexo"=>$this->getsexo(),
+            ":nascimento"=>$this->getnascimento(),
+            ":cep"=>$this->getcep(),
+            ":rua"=>$this->getrua(),
+            ":numero"=>$this->getnumero(),
+            ":bairro"=>$this->getbairro(),
+            ":cidade"=>$this->getcidade(),
+            ":estado"=>$this->getestado(),
+            ":telefone"=>$this->gettelefone()
+        ));
+
+        $this->setData($results[0]);
+
+    }
 
 }
 
